@@ -22,7 +22,7 @@ package build directories, and egg-info directories.
 """
 
 
-def main():
+def run():
     """
     The main entry point of the script.
 
@@ -116,3 +116,7 @@ def main():
 
     if output_file:
         output_file.close()
+
+
+if __name__ == "__main__":
+    run()
