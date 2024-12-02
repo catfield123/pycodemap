@@ -8,8 +8,8 @@ import argparse
 import fnmatch
 import os
 
-from .analyzer import analyze_file
-from .formatter import format_output
+from pycodemap.analyzer import analyze_file
+from pycodemap.formatter import format_output
 
 DEFAULT_EXCLUDES = {".git", ".venv*", "__pycache__", "*.egg-info", "build", "dist"}
 """
