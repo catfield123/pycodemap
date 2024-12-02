@@ -19,11 +19,22 @@ pip install pycodemap
 
 After installation, you can run the tool using the `pycodemap` command.
 
+You can also use `python -m pycodemap` to run the tool from the command line.
+
+Note that if pip installs the package into directory that is not in the PATH, you will need to add the directory to the PATH or use `python -m pycodemap`.
+
+To add the directory to the PATH, you can run the following command or add it to your `.bashrc` or `.zshrc` file:
+
+```bash
+export PATH="$PATH:/path/to/pycodemap/directory"
+```
+
 ### Basic Commands
 
 - Analyze the current directory:
   ```bash
   pycodemap .
+  python -m pycodemap .
   ```
 
 - Save the output to a file:
