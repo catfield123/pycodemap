@@ -9,7 +9,7 @@ information about the classes and functions it contains.
 
 import ast
 
-DEFAULT_EXCLUDES = {".git", ".venv*", "__pycache__", "*.egg-info", "build", "dist"}
+DEFAULT_IGNORES = {".git", ".venv*", "__pycache__", "*.egg-info", "build", "dist"}
 
 
 def get_arguments_and_hints(node: ast.FunctionDef) -> tuple:

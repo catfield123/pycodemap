@@ -11,9 +11,9 @@ import os
 from pycodemap.analyzer import analyze_file
 from pycodemap.formatter import format_output
 
-DEFAULT_EXCLUDES = {".git", ".venv*", "__pycache__", "*.egg-info", "build", "dist"}
+DEFAULT_IGNORES = {".git", ".venv*", "__pycache__", "*.egg-info", "build", "dist"}
 """
-A set of default excludes for the --exclude option.
+A set of default ignores for the --ignore option.
 
 This set includes some common directory and file names that are usually
 not relevant for the structure of a Python project, such as version control
@@ -35,7 +35,7 @@ def run():
     :param no_attributes: Exclude attributes from the output.
     :param minimalistic: Minimalistic output mode.
     :param output: Path to save the output to a file.
-    :param exclude: Pattern of directories or files to exclude (e.g., '.git|__pycache__').
+    :param ignore: Pattern of directories or files to ignore (e.g., '.git|__pycache__').
     """
     parser = argparse.ArgumentParser(
         description="A tool to extract and outline the structure of Python code."
@@ -66,17 +66,17 @@ def run():
         "--output", "-o", type=str, help="Path to save the output to a file."
     )
     parser.add_argument(
-        "--exclude",
+        "--ignore",
         "-I",
         type=str,
-        help="Pattern of directories or files to exclude (e.g., '.git|__pycache__').",
+        help="Pattern of directories or files to ignore (e.g., '.git|__pycache__').",
     )
     args = parser.parse_args()
 
     directory = args.directory
-    exclude_patterns = set(DEFAULT_EXCLUDES)
-    if args.exclude:
-        exclude_patterns.update(args.exclude.split("|"))
+    ignore_patterns = set(DEFAULT_IGNORES)
+    if args.ignore:
+        ignore_patterns.update(args.ignore.split("|"))
 
     include_classes = not args.functions_only
     include_functions = not args.classes_only
@@ -89,11 +89,11 @@ def run():
 
     for root, dirs, files in os.walk(directory):
         dirs[:] = [
-            d for d in dirs if not any(fnmatch.fnmatch(d, p) for p in exclude_patterns)
+            d for d in dirs if not any(fnmatch.fnmatch(d, p) for p in ignore_patterns)
         ]
         for file in files:
             if file.endswith(".py") and not any(
-                fnmatch.fnmatch(file, p) for p in exclude_patterns
+                fnmatch.fnmatch(file, p) for p in ignore_patterns
             ):
                 filepath = os.path.join(root, file)
                 classes, functions = analyze_file(

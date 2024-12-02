@@ -29,7 +29,7 @@ def format_output(
         include_classes (bool): Whether or not to include classes in the output.
         include_functions (bool): Whether or not to include functions in the output.
         minimalistic (bool): Whether to use a minimalistic output style or not.
-        no_attributes (bool): Whether to exclude class attributes from the output.
+        no_attributes (bool): Whether to ignore class attributes from the output.
 
     Returns:
         str: The formatted string representing the outline of the file.
