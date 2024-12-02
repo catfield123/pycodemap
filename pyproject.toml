@@ -16,6 +16,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[project.urls]
+Repository = "https://github.com/your_username/PyCodeMap"
+
 [project.scripts]
 pycodemap = "pycodemap.__main__:run"
 
