@@ -88,6 +88,7 @@ def analyze_file(
         if isinstance(node, ast.ClassDef) and include_classes:
             class_decorators = get_decorators(node)
             class_methods = []
+            base_classes = [ast.unparse(base) for base in node.bases]
             class_attributes = []
 
             for child in node.body:
@@ -115,6 +116,7 @@ def analyze_file(
                 {
                     "name": node.name,
                     "decorators": class_decorators,
+                    "base_classes": base_classes,
                     "methods": class_methods,
                     "attributes": class_attributes,
                 }

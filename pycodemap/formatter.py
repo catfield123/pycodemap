@@ -44,12 +44,16 @@ def format_output(
                 class_name = class_data["name"]
                 class_decorators = class_data["decorators"]
                 class_attributes = class_data["attributes"]
+                class_base_classes = class_data["base_classes"]
 
                 if class_decorators:
                     for decorator in class_decorators:
                         output.append(f"  @{decorator}")
 
-                output.append(f"  Class: {class_name}")
+                class_full_name = f"  Class: {class_name}"
+                if class_base_classes:
+                    class_full_name += " (" + ", ".join(class_base_classes) + ")"
+                output.append(class_full_name)
                 output.append("")
 
                 if not no_attributes and class_attributes:
