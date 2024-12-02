@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [project.scripts]
-pycodemap = "pycodemap.cli:run"
+pycodemap = "pycodemap.__main__:run"
 
 [tool.isort]
 profile = "black"
