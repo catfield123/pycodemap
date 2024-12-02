@@ -1,3 +1,9 @@
+"""
+The command line interface of the pycodemap tool.
+
+This module provides the command line interface for the pycodemap tool.
+"""
+
 import argparse
 import fnmatch
 import os
