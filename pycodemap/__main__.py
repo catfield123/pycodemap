@@ -60,7 +60,7 @@ def run():
         help="Exclude attributes from the output.",
     )
     parser.add_argument(
-        "--minimalistic", action="store_true", help="Minimalistic output mode."
+        "--minimalistic", "-m", action="store_true", help="Minimalistic output mode."
     )
     parser.add_argument(
         "--output", "-o", type=str, help="Path to save the output to a file."
