@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tebogen"
+version = "0.0.1"
+description = "A CLI tool for extracting and outlining the structure of Python code."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Artyom Prokhorov"}]
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+tebogen = "tebogen.__main__:run"
+
+[tool.isort]
+profile = "black"
+
+

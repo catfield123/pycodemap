@@ -1,0 +1,26 @@
+[bump]
+files = ["pyproject.toml"]
+
+
+[bumpver]
+current_version = "0.0.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump version {old_version} -> {new_version}"
+tag_message = "{new_version}"
+tag_scope = "default"
+pre_commit_hook = ""
+post_commit_hook = ""
+commit = true
+push = true
+
+[bumpver.file_patterns]
+"pyproject.toml" = [
+    '^version = "{version}"',
+]
+".bumpver.toml" = [
+    '^current_version = "{version}"',
+]
+"README.md" = [
+    '^Version: {version}',
+]
+
