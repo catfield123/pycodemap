@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "tebogen"
+name = "pycodemap"
 version = "0.0.1"
 description = "A CLI tool for extracting and outlining the structure of Python code."
 readme = "README.md"
@@ -17,7 +17,7 @@ classifiers = [
 ]
 
 [project.scripts]
-tebogen = "tebogen.__main__:run"
+pycodemap = "pycodemap.cli:run"
 
 [tool.isort]
 profile = "black"
