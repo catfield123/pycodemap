@@ -79,8 +79,6 @@ You can combine multiple options to get the desired output.
 pycodemap . -cam -i "dir_to_ignore|file_to_ignore"
 pycodemap . --classes-only --no-attributes --minimalistic --ignore "dir_to_ignore|file_to_ignore"
 ```
-Вы правы, в раздел для контрибьюторов обычно включают инструкции по созданию форка репозитория, так как контрибьюторы не всегда имеют прямой доступ для записи в основной репозиторий. Вот исправленная версия с учётом процесса форка и создания pull request:
-
 
 ## Contributing
 
