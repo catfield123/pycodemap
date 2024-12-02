@@ -69,14 +69,14 @@ export PATH="$PATH:/path/to/pycodemap/directory"
 
 - Exclude specific directories or files:
   ```bash
-  pycodemap . -i "dir_to_ignore|file_to_ignore"
+  pycodemap . -I "dir_to_ignore|file_to_ignore"
   pycodemap . --ignore "dir_to_ignore|file_to_ignore"
   ```
 
 You can combine multiple options to get the desired output.
 
 ```bash
-pycodemap . -cam -i "dir_to_ignore|file_to_ignore"
+pycodemap . -cam -I "dir_to_ignore|file_to_ignore"
 pycodemap . --classes-only --no-attributes --minimalistic --ignore "dir_to_ignore|file_to_ignore"
 ```
 
