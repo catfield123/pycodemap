@@ -103,7 +103,11 @@ def analyze_file(
                             "decorators": method_decorators,
                         }
                     )
-                elif isinstance(child, (ast.Assign, ast.AnnAssign)):
+                if isinstance(child, ast.Assign):
+                    for target in child.targets:
+                        name = target.id if isinstance(target, ast.Name) else None
+                        class_attributes.append({"name": name, "type": None})
+                elif isinstance(child, ast.AnnAssign):
                     name = (
                         child.target.id if isinstance(child.target, ast.Name) else None
                     )
