@@ -61,6 +61,74 @@ def get_decorators(node: ast.FunctionDef) -> list:
     return decorators
 
 
+def analyze_method(child: ast.FunctionDef) -> dict:
+    args, return_type = get_arguments_and_hints(child)
+    method_decorators = get_decorators(child)
+    return {
+        "name": child.name,
+        "args": args,
+        "return_type": return_type,
+        "decorators": method_decorators,
+    }
+
+
+def analyze_assignments_without_annotations(child: ast.Assign) -> list[dict]:
+    class_attributes_without_annotations = []
+    for target in child.targets:
+        name = target.id if isinstance(target, ast.Name) else None
+        class_attributes_without_annotations.append({"name": name, "type": None})
+    return class_attributes_without_annotations
+
+
+def analyze_assignments_with_annotations(child: ast.AnnAssign) -> list[dict]:
+    class_attributes_with_annotations = []
+    name = child.target.id if isinstance(child.target, ast.Name) else None
+    annotation = ast.unparse(child.annotation) if child.annotation else None
+    class_attributes_with_annotations.append({"name": name, "type": annotation})
+    return class_attributes_with_annotations
+
+
+def analyze_class(node: ast.ClassDef) -> dict:
+    class_decorators = get_decorators(node)
+    class_methods = []
+    base_classes = [ast.unparse(base) for base in node.bases]
+    class_attributes = []
+
+    for child in node.body:
+        if isinstance(child, ast.FunctionDef):
+            class_method = analyze_method(child)
+            class_methods.append(class_method)
+        if isinstance(child, ast.Assign):
+            class_attributes_without_annotations = (
+                analyze_assignments_without_annotations(child)
+            )
+            class_attributes.extend(class_attributes_without_annotations)
+        elif isinstance(child, ast.AnnAssign):
+            class_attributes_with_annotations = analyze_assignments_with_annotations(
+                child
+            )
+            class_attributes.extend(class_attributes_with_annotations)
+
+    return {
+        "name": node.name,
+        "decorators": class_decorators,
+        "base_classes": base_classes,
+        "methods": class_methods,
+        "attributes": class_attributes,
+    }
+
+
+def analyze_function(node: ast.FunctionDef) -> dict:
+    args, return_type = get_arguments_and_hints(node)
+    function_decorators = get_decorators(node)
+    return {
+        "name": node.name,
+        "args": args,
+        "return_type": return_type,
+        "decorators": function_decorators,
+    }
+
+
 def analyze_file(
     filepath: str, include_classes: bool = True, include_functions: bool = True
 ) -> tuple:
@@ -86,55 +154,8 @@ def analyze_file(
 
     for node in tree.body:
         if isinstance(node, ast.ClassDef) and include_classes:
-            class_decorators = get_decorators(node)
-            class_methods = []
-            base_classes = [ast.unparse(base) for base in node.bases]
-            class_attributes = []
-
-            for child in node.body:
-                if isinstance(child, ast.FunctionDef):
-                    args, return_type = get_arguments_and_hints(child)
-                    method_decorators = get_decorators(child)
-                    class_methods.append(
-                        {
-                            "name": child.name,
-                            "args": args,
-                            "return_type": return_type,
-                            "decorators": method_decorators,
-                        }
-                    )
-                if isinstance(child, ast.Assign):
-                    for target in child.targets:
-                        name = target.id if isinstance(target, ast.Name) else None
-                        class_attributes.append({"name": name, "type": None})
-                elif isinstance(child, ast.AnnAssign):
-                    name = (
-                        child.target.id if isinstance(child.target, ast.Name) else None
-                    )
-                    annotation = (
-                        ast.unparse(child.annotation) if child.annotation else None
-                    )
-                    class_attributes.append({"name": name, "type": annotation})
-
-            classes.append(
-                {
-                    "name": node.name,
-                    "decorators": class_decorators,
-                    "base_classes": base_classes,
-                    "methods": class_methods,
-                    "attributes": class_attributes,
-                }
-            )
+            classes.append(analyze_class(node))
         elif isinstance(node, ast.FunctionDef) and include_functions:
-            args, return_type = get_arguments_and_hints(node)
-            function_decorators = get_decorators(node)
-            functions.append(
-                {
-                    "name": node.name,
-                    "args": args,
-                    "return_type": return_type,
-                    "decorators": function_decorators,
-                }
-            )
+            functions.append(analyze_function(node))
 
     return classes, functions
